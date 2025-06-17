@@ -67,30 +67,52 @@
       from { transform: translateY(50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
+    a {
+      color: #add8e6;
+      text-decoration: underline;
+    }
+
+    #rickroll-info {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
   <div class="message">
     <h1>You’ve been professionally Rickrolled.</h1>
     <p>🎶 Never gonna give you up, never gonna let you down... 🎶</p>
+
+    <p style="margin-top: 20px; font-size: 0.9em;">
+      <a href="#" onclick="showRickrollInfo(); return false;">
+        What’s Rickrolling?
+      </a>
+    </p>
+
+    <div id="rickroll-info">
+      <p>
+        <strong>Rickrolling</strong> is an internet prank where someone clicks a link thinking it's something important or interesting,
+        but instead it leads to the music video for Rick Astley's 1987 song 
+        <em>"Never Gonna Give You Up"</em>. It's all in good fun and part of online meme culture!
+      </p>
+    </div>
   </div>
 
   <!-- Include canvas-confetti via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <script>
-    // Launch confetti when page loads
+    // Confetti on load
     window.onload = () => {
       const duration = 5 * 1000;
       const animationEnd = Date.now() + duration;
 
-      const randomInRange = (min, max) => Math.random() * (max - min) + min;
-
       const confettiInterval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          clearInterval(confettiInterval);
-        }
+        if (timeLeft <= 0) clearInterval(confettiInterval);
 
         confetti({
           particleCount: 50,
@@ -103,6 +125,40 @@
         });
       }, 250);
     };
+
+    // Confetti on cursor move
+    document.addEventListener('mousemove', (e) => {
+      confetti({
+        particleCount: 10,
+        angle: 90,
+        spread: 60,
+        startVelocity: 20,
+        origin: {
+          x: e.clientX / window.innerWidth,
+          y: e.clientY / window.innerHeight
+        }
+      });
+    });
+
+    // Confetti on click
+    document.addEventListener('click', (e) => {
+      confetti({
+        particleCount: 20,
+        angle: 90,
+        spread: 100,
+        startVelocity: 45,
+        origin: {
+          x: e.clientX / window.innerWidth,
+          y: e.clientY / window.innerHeight
+        }
+      });
+    });
+
+    // Show Rickroll info
+    function showRickrollInfo() {
+      const infoBox = document.getElementById('rickroll-info');
+      infoBox.style.display = 'block';
+    }
   </script>
 </body>
 </html>
